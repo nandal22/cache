@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -5,20 +6,20 @@ import java.util.Map;
 
 class LRUCache{
 	public static void main(String[] args){
-		System.out.println("This is LRU Cache");
+		System.out.println("\n ********** This is LRU Cache ********** \n");
 
 		/*
 		 * What a cache contains
 		 * 1. Get Ops
 		 * 2. Put Ops
 		 * 3. Eviction Strategy - Remove Least Recently Used (LRU)
-		 * 4. Supports different Data Types
 		 */
 
 		 /*
 		  * Example:
 			Size : 5
-			1, 2, 3, 4, 5, 4, 3, 3, 2
+			Input: 1, 2, 3, 4, 5, 6, 3, 3, 2
+			Output: 1 will be evicted
 		  */
 
 		LRUCacheImpl<Integer, String> lruCache = new LRUCacheImpl<Integer, String>(5);
@@ -41,6 +42,22 @@ class LRUCache{
 		lruCache.put(3, "C"); 
 
 		System.out.println(lruCache.get(2));
+
+		System.out.println("\n***************\n");
+
+		LRUCacheImpl<Integer, Integer> cache1 = new LRUCacheImpl<>(5);
+
+		cache1.put(1,1);
+		cache1.put(2,1);
+		cache1.put(3,1);
+		cache1.put(4,1);
+		cache1.put(5,1);
+		cache1.put(6,1);
+		cache1.put(3,1);
+		cache1.put(3,1);
+		cache1.put(2,1);
+
+		System.out.println(cache1.getKeys());
 	}
 }
 
@@ -49,6 +66,8 @@ interface IMyCache<K, V>{
 	public V get(K k);
 
 	public void put(K k, V v);
+
+	public List<K> getKeys();
 }
 
 class LRUCacheImpl<K, V> implements IMyCache<K, V>{
@@ -89,5 +108,10 @@ class LRUCacheImpl<K, V> implements IMyCache<K, V>{
 		cache.put(key, val);
 
 		return;
+	}
+
+	@Override
+	public List<K> getKeys(){
+		return new ArrayList<>(cache.keySet());
 	}
 }
